@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Si-gul | AI Drug Target Discovery Platform</title>
+  <meta name="description" content="Si-gul Target Intelligence ranks and scores drug targets using Open Targets, ClinicalTrials.gov, UniProt, and ChEMBL. Built for early-stage biotech R&D teams.">
+  <meta name="keywords" content="drug target discovery platform, AI drug discovery, drug target identification, target validation software, bioinformatics platform">
+  <link rel="canonical" href="https://si-gul.com/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Hanken Grotesk', system-ui, sans-serif;
+      color: #4A4F6A;
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: #1D9E75; text-decoration: none; }
+    a:hover { color: #16805E; }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11,20,55,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: #fff;
+      font-size: 19px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      font-size: 15px;
+    }
+    .nav-links a:hover { color: #fff; }
+    .btn-primary {
+      background: #1D9E75;
+      color: #fff !important;
+      padding: 11px 22px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #16805E !important; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      background: #0B1437;
+      color: #fff;
+      overflow: hidden;
+    }
+    .hero-dots {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 26px 26px;
+    }
+    .hero-fade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(11,20,55,0.96) 0%, rgba(11,20,55,0.72) 55%, rgba(11,20,55,0.5) 100%);
+    }
+    .hero-inner {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 120px 40px 104px;
+    }
+    .hero-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #4FD1A5;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 5.5vw, 66px);
+      line-height: 1.08;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      margin-bottom: 26px;
+      color: #fff;
+      max-width: 760px;
+    }
+    .hero h1 strong { font-weight: 500; }
+    .hero-sub {
+      font-size: 20px;
+      line-height: 1.6;
+      font-weight: 300;
+      color: rgba(255,255,255,0.72);
+      max-width: 620px;
+      margin-bottom: 40px;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.28);
+      color: #fff !important;
+      padding: 15px 30px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      transition: border-color 0.2s;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.6); }
+    .btn-hero {
+      background: #1D9E75;
+      color: #fff !important;
+      padding: 15px 30px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .stat-card {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 16px 22px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+    }
+    .stat-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 22px;
+      font-weight: 500;
+      color: #fff;
+    }
+    .stat-label { font-size: 13px; color: rgba(255,255,255,0.6); }
+
+    /* SECTION SHARED */
+    section { padding: 110px 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+    .section-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #1D9E75;
+      margin-bottom: 20px;
+    }
+    .section-heading {
+      font-size: clamp(28px, 3.5vw, 44px);
+      line-height: 1.12;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: #0B1437;
+    }
+    .section-heading strong { font-weight: 500; }
+
+    /* HOW IT WORKS */
+    .how-intro { max-width: 640px; margin-bottom: 72px; }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+    .step-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: #8B8FA8;
+      margin-bottom: 8px;
+    }
+    .step h3 { font-size: 21px; font-weight: 500; color: #0B1437; margin-bottom: 12px; }
+    .step p { font-size: 16px; line-height: 1.6; font-weight: 300; }
+    .step-icon { margin-bottom: 24px; }
+
+    /* PLATFORM */
+    .platform-bg { background: #F8F9FC; }
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      margin-top: 64px;
+    }
+    .platform-card {
+      background: #fff;
+      border: 1px solid #E8EAF0;
+      border-radius: 12px;
+      padding: 36px;
+    }
+    .platform-card h3 { font-size: 20px; font-weight: 500; color: #0B1437; margin-bottom: 12px; margin-top: 20px; }
+    .platform-card p { font-size: 15px; line-height: 1.65; font-weight: 300; }
+    .card-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #1D9E75;
+      background: rgba(29,158,117,0.08);
+      padding: 4px 10px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    /* CONFIDENCE BARS */
+    .confidence-section { background: #0B1437; color: #fff; }
+    .confidence-section .section-heading { color: #fff; }
+    .bars-wrap { margin-top: 60px; max-width: 680px; }
+    .bar-row { margin-bottom: 28px; }
+    .bar-label-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .bar-name { color: rgba(255,255,255,0.85); font-weight: 400; }
+    .bar-score { font-family: 'IBM Plex Mono', monospace; color: #4FD1A5; }
+    .bar-track {
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1D9E75, #4FD1A5);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    /* FOR WHOM */
+    .for-whom-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 64px;
+    }
+    .icp-card {
+      border: 1px solid #E8EAF0;
+      border-radius: 12px;
+      padding: 32px;
+    }
+    .icp-card h3 { font-size: 18px; font-weight: 500; color: #0B1437; margin-bottom: 10px; margin-top: 16px; }
+    .icp-card p { font-size: 15px; line-height: 1.65; font-weight: 300; }
+
+    /* DATA SOURCES */
+    .sources-bg { background: #F8F9FC; }
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 56px;
+    }
+    .source-pill {
+      background: #fff;
+      border: 1px solid #E8EAF0;
+      border-radius: 8px;
+      padding: 20px 24px;
+      text-align: center;
+    }
+    .source-pill .source-name {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      font-weight: 500;
+      color: #0B1437;
+    }
+    .source-pill .source-desc { font-size: 13px; color: #8B8FA8; margin-top: 6px; }
+
+    /* CTA */
+    .cta-section { background: #0B1437; color: #fff; text-align: center; }
+    .cta-section .section-heading { color: #fff; margin-bottom: 16px; }
+    .cta-sub { font-size: 18px; font-weight: 300; color: rgba(255,255,255,0.65); margin-bottom: 40px; }
+    .cta-form {
+      display: flex;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .cta-form input {
+      flex: 1;
+      min-width: 220px;
+      padding: 14px 18px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+    }
+    .cta-form input::placeholder { color: rgba(255,255,255,0.4); }
+    .cta-form input:focus { border-color: #1D9E75; }
+    .cta-submitted { font-size: 18px; color: #4FD1A5; display: none; }
+
+    /* FOOTER */
+    footer {
+      background: #060E2B;
+      color: rgba(255,255,255,0.45);
+      padding: 48px 0;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-logo { color: rgba(255,255,255,0.7); font-size: 16px; font-weight: 500; }
+    .footer-note { font-size: 13px; }
+
+    /* ANIMATIONS */
+    @keyframes sg-pulse { 0%,100% { opacity:0.4; } 50% { opacity:0.85; } }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-inner { padding: 16px 20px; }
+      .nav-links > a { display: none; }
+      .hero-inner { padding: 80px 20px 64px; }
+      .container { padding: 0 20px; }
+      section { padding: 72px 0; }
+      .steps-grid, .for-whom-grid { grid-template-columns: 1fr; gap: 32px; }
+      .platform-grid { grid-template-columns: 1fr; }
+      .sources-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#top" class="nav-logo">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+          <circle cx="13" cy="6" r="3" fill="#1D9E75"/>
+          <circle cx="6" cy="18" r="2.4" fill="#fff" opacity="0.85"/>
+          <circle cx="20" cy="18" r="2.4" fill="#fff" opacity="0.85"/>
+          <line x1="13" y1="6" x2="6" y2="18" stroke="#fff" stroke-width="1" opacity="0.5"/>
+          <line x1="13" y1="6" x2="20" y2="18" stroke="#fff" stroke-width="1" opacity="0.5"/>
+          <line x1="6" y1="18" x2="20" y2="18" stroke="#fff" stroke-width="1" opacity="0.5"/>
+        </svg>
+        Si-gul Biotech
+      </a>
+      <div class="nav-links">
+        <a href="#platform">Platform</a>
+        <a href="#science">Science</a>
+        <a href="#about">About</a>
+        <a href="#request" class="btn-primary">Request early access</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-dots"></div>
+    <!-- Molecular network SVG -->
+    <svg viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid slice"
+         style="position:absolute;inset:0;width:100%;height:100%;opacity:0.55;" aria-hidden="true">
+      <line x1="80" y1="120" x2="220" y2="60" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="220" y1="60" x2="300" y2="180" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="300" y1="180" x2="180" y2="260" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="80" y1="120" x2="180" y2="260" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="220" y1="60" x2="420" y2="110" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="420" y1="110" x2="500" y2="240" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="300" y1="180" x2="500" y2="240" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="420" y1="110" x2="600" y2="80" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="600" y1="80" x2="700" y2="200" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="500" y1="240" x2="700" y2="200" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="600" y1="80" x2="960" y2="80" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="960" y1="80" x2="820" y2="120" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="820" y1="120" x2="760" y2="320" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="700" y1="200" x2="760" y2="320" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="820" y1="120" x2="1040" y2="140" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="1040" y1="140" x2="960" y2="80" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="760" y1="320" x2="900" y2="260" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="900" y1="260" x2="1120" y2="300" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <line x1="1040" y1="140" x2="1120" y2="300" stroke="#1D9E75" stroke-width="1" opacity="0.28"/>
+      <circle class="node" cx="80" cy="120" r="5" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="220" cy="60" r="4" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="300" cy="180" r="3" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="180" cy="260" r="5" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="420" cy="110" r="4" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="500" cy="240" r="3" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="600" cy="80" r="5" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="700" cy="200" r="4" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="820" cy="120" r="3" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="760" cy="320" r="5" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="900" cy="260" r="4" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="1040" cy="140" r="3" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="1120" cy="300" r="5" fill="#1D9E75" opacity="0.5"/>
+      <circle class="node" cx="960" cy="80" r="4" fill="#1D9E75" opacity="0.5"/>
+    </svg>
+    <div class="hero-fade"></div>
+    <div class="hero-inner">
+      <div class="reveal">
+        <div class="hero-tag">AI-powered drug target discovery</div>
+        <h1>Target intelligence for biotech <strong>R&amp;D teams.</strong></h1>
+        <p class="hero-sub">Si-gul scans genomic, clinical, and literature data to rank drug targets by validated confidence scores — so your team knows where to commit before the first assay.</p>
+        <div class="hero-btns">
+          <a href="#request" class="btn-hero">Request early access</a>
+          <a href="#science" class="btn-outline">See how it works</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card"><span class="stat-num">8+</span><span class="stat-label">data sources</span></div>
+          <div class="stat-card"><span class="stat-num">4</span><span class="stat-label">confidence layers</span></div>
+          <div class="stat-card"><span class="stat-num">5-axis</span><span class="stat-label">scoring model</span></div>
+          <div class="stat-card"><span class="stat-num">72h</span><span class="stat-label">report turnaround</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="science" style="background:#fff;">
+    <div class="container">
+      <div class="how-intro reveal">
+        <div class="section-tag">How it works</div>
+        <h2 class="section-heading">From indication to a <strong>ranked target report</strong>, in three steps.</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step reveal">
+          <svg class="step-icon" width="44" height="44" viewBox="0 0 44 44" fill="none">
+            <circle cx="22" cy="22" r="18" stroke="#1D9E75" stroke-width="1.5"/>
+            <circle cx="22" cy="22" r="9" stroke="#1D9E75" stroke-width="1.5"/>
+            <circle cx="22" cy="22" r="2.5" fill="#1D9E75"/>
+          </svg>
+          <div class="step-num">01</div>
+          <h3>Define your indication</h3>
+          <p>Scope the disease area and biological question. Si-gul builds the search space around your therapeutic hypothesis.</p>
+        </div>
+        <div class="step reveal">
+          <svg class="step-icon" width="44" height="44" viewBox="0 0 44 44" fill="none">
+            <circle cx="10" cy="14" r="4" stroke="#1D9E75" stroke-width="1.5"/>
+            <circle cx="34" cy="11" r="4" stroke="#1D9E75" stroke-width="1.5"/>
+            <circle cx="22" cy="32" r="4" stroke="#1D9E75" stroke-width="1.5"/>
+            <circle cx="36" cy="30" r="3" stroke="#1D9E75" stroke-width="1.5"/>
+            <line x1="13" y1="15" x2="19" y2="30" stroke="#1D9E75" stroke-width="1.2"/>
+            <line x1="31" y1="13" x2="24" y2="30" stroke="#1D9E75" stroke-width="1.2"/>
+            <line x1="14" y1="13" x2="30" y2="11" stroke="#1D9E75" stroke-width="1.2"/>
+            <line x1="25" y1="31" x2="34" y2="30" stroke="#1D9E75" stroke-width="1.2"/>
+          </svg>
+          <div class="step-num">02</div>
+          <h3>Multi-source intelligence scan</h3>
+          <p>Genomic, clinical, and literature evidence is synthesised across Open Targets, UniProt, ClinVar, ClinicalTrials.gov, and PubMed.</p>
+        </div>
+        <div class="step reveal">
+          <svg class="step-icon" width="44" height="44" viewBox="0 0 44 44" fill="none">
+            <rect x="8" y="10" width="28" height="24" rx="3" stroke="#1D9E75" stroke-width="1.5"/>
+            <line x1="14" y1="18" x2="30" y2="18" stroke="#1D9E75" stroke-width="1.2"/>
+            <line x1="14" y1="23" x2="26" y2="23" stroke="#1D9E75" stroke-width="1.2"/>
+            <line x1="14" y1="28" x2="22" y2="28" stroke="#1D9E75" stroke-width="1.2"/>
+          </svg>
+          <div class="step-num">03</div>
+          <h3>Ranked target report</h3>
+          <p>Receive a structured PDF report with confidence scores, LLM-generated narrative, and actionable next steps — ready for your team or investors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM FEATURES -->
+  <section class="platform-bg" id="platform">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-tag">Platform</div>
+        <h2 class="section-heading">Everything your R&amp;D team needs to <strong>prioritise faster.</strong></h2>
+      </div>
+      <div class="platform-grid">
+        <div class="platform-card reveal">
+          <span class="card-tag">Scoring Engine</span>
+          <h3>5-axis confidence scoring</h3>
+          <p>Every drug target is scored across genetic association, clinical evidence, druggability, safety signal, and literature strength — giving you a composite confidence score you can defend in an investor meeting.</p>
+        </div>
+        <div class="platform-card reveal">
+          <span class="card-tag">Intelligence</span>
+          <h3>LLM narrative layer</h3>
+          <p>Beyond raw scores, Si-gul generates plain-language summaries of the evidence for each target — translating database outputs into science your BD team can read and act on.</p>
+        </div>
+        <div class="platform-card reveal">
+          <span class="card-tag">Output</span>
+          <h3>Structured PDF reports</h3>
+          <p>Every analysis produces a branded, investor-ready PDF with ranked targets, score breakdowns, data provenance, and recommended next steps. No data wrangling required.</p>
+        </div>
+        <div class="platform-card reveal">
+          <span class="card-tag">Access</span>
+          <h3>Discovery-as-a-Service</h3>
+          <p>No enterprise contract, no six-month onboarding. Submit your indication, get your report. Designed for lean R&amp;D teams who need answers in days, not quarters.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONFIDENCE BARS -->
+  <section class="confidence-section">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-tag" style="color:#4FD1A5;">Target confidence scores</div>
+        <h2 class="section-heading">See which targets are worth <strong>your next experiment.</strong></h2>
+      </div>
+      <div class="bars-wrap" id="barsWrap">
+        <div class="bar-row reveal">
+          <div class="bar-label-row"><span class="bar-name">BRAF (V600E)</span><span class="bar-score">91</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="91"></div></div>
+        </div>
+        <div class="bar-row reveal">
+          <div class="bar-label-row"><span class="bar-name">EGFR</span><span class="bar-score">84</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="84"></div></div>
+        </div>
+        <div class="bar-row reveal">
+          <div class="bar-label-row"><span class="bar-name">PIK3CA</span><span class="bar-score">76</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="76"></div></div>
+        </div>
+        <div class="bar-row reveal">
+          <div class="bar-label-row"><span class="bar-name">KRAS (G12C)</span><span class="bar-score">68</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="68"></div></div>
+        </div>
+        <div class="bar-row reveal">
+          <div class="bar-label-row"><span class="bar-name">TP53</span><span class="bar-score">52</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="52"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO IT'S FOR -->
+  <section id="about" style="background:#fff;">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-tag">Who it's for</div>
+        <h2 class="section-heading">Built for teams who <strong>move fast on early science.</strong></h2>
+      </div>
+      <div class="for-whom-grid">
+        <div class="icp-card reveal">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <circle cx="18" cy="18" r="14" stroke="#1D9E75" stroke-width="1.5"/>
+            <circle cx="18" cy="18" r="6" stroke="#1D9E75" stroke-width="1.5"/>
+            <circle cx="18" cy="18" r="2" fill="#1D9E75"/>
+          </svg>
+          <h3>Early-stage biotech startups</h3>
+          <p>Pre-Series A teams who need to shortlist targets for their first IND without a full computational biology team on payroll.</p>
+        </div>
+        <div class="icp-card reveal">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="6" y="8" width="24" height="20" rx="3" stroke="#1D9E75" stroke-width="1.5"/>
+            <line x1="11" y1="15" x2="25" y2="15" stroke="#1D9E75" stroke-width="1.2"/>
+            <line x1="11" y1="20" x2="21" y2="20" stroke="#1D9E75" stroke-width="1.2"/>
+          </svg>
+          <h3>Academic labs entering pharma</h3>
+          <p>Principal investigators translating basic research into commercial drug discovery who need structured evidence synthesis fast.</p>
+        </div>
+        <div class="icp-card reveal">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <circle cx="10" cy="12" r="4" stroke="#1D9E75" stroke-width="1.5"/>
+            <circle cx="26" cy="12" r="4" stroke="#1D9E75" stroke-width="1.5"/>
+            <circle cx="18" cy="26" r="4" stroke="#1D9E75" stroke-width="1.5"/>
+            <line x1="13" y1="13" x2="22" y2="24" stroke="#1D9E75" stroke-width="1.2"/>
+            <line x1="23" y1="13" x2="19" y2="23" stroke="#1D9E75" stroke-width="1.2"/>
+          </svg>
+          <h3>CROs and service providers</h3>
+          <p>Contract research organisations that need rapid target shortlisting as a deliverable for their own biotech clients.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATA SOURCES -->
+  <section class="sources-bg">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-tag">Data sources</div>
+        <h2 class="section-heading">Built on the world's most <strong>trusted public databases.</strong></h2>
+      </div>
+      <div class="sources-grid">
+        <div class="source-pill reveal">
+          <div class="source-name">Open Targets</div>
+          <div class="source-desc">Gene-disease associations</div>
+        </div>
+        <div class="source-pill reveal">
+          <div class="source-name">ClinicalTrials.gov</div>
+          <div class="source-desc">Clinical evidence</div>
+        </div>
+        <div class="source-pill reveal">
+          <div class="source-name">UniProt</div>
+          <div class="source-desc">Protein function</div>
+        </div>
+        <div class="source-pill reveal">
+          <div class="source-name">ChEMBL</div>
+          <div class="source-desc">Druggability data</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / REQUEST ACCESS -->
+  <section class="cta-section" id="request">
+    <div class="container">
+      <div class="reveal" style="max-width:640px;margin:0 auto;">
+        <div class="section-tag" style="color:#4FD1A5;">Early access</div>
+        <h2 class="section-heading">Get your first target report <strong>in 72 hours.</strong></h2>
+        <p class="cta-sub">We're onboarding a small cohort of early-stage biotech teams. Drop your email and we'll reach out.</p>
+        <div class="cta-form" id="ctaForm">
+          <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email">
+          <button class="btn-primary" onclick="handleSubmit()" style="padding:14px 28px;border:none;cursor:pointer;font-size:15px;font-family:inherit;border-radius:6px;">
+            Request access
+          </button>
+        </div>
+        <p class="cta-submitted" id="ctaSuccess">Thanks! We'll be in touch within 48 hours.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Si-gul Biotech</div>
+      <div class="footer-note">AI-powered drug target discovery &middot; &copy; 2025 Si-gul Biotech</div>
+    </div>
+  </footer>
+
+  <script>
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+          // Animate bars inside this element
+          e.target.querySelectorAll('.bar-fill').forEach((bar, i) => {
+            const w = bar.getAttribute('data-w') + '%';
+            setTimeout(() => { bar.style.width = w; }, 200 + i * 120);
+          });
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    // Pulse nodes
+    document.querySelectorAll('.node').forEach((n, i) => {
+      n.style.animation = `sg-pulse ${2600 + (i % 5) * 400}ms ease-in-out ${i * 120}ms infinite`;
+    });
+
+    // CTA form
+    function handleSubmit() {
+      const email = document.getElementById('emailInput').value.trim();
+      if (!email || !email.includes('@')) {
+        document.getElementById('emailInput').focus();
+        return;
+      }
+      document.getElementById('ctaForm').style.display = 'none';
+      document.getElementById('ctaSuccess').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
